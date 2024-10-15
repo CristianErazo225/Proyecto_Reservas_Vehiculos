@@ -5,6 +5,9 @@ import { AppService } from './app.service';
 import { ReservaService } from './reserva/reserva.service';
 import { ReservaController } from './reserva/reserva.controller';
 import { Reserva } from './reserva/reserva.entity';
+import { VehiculoService } from './vehiculo/vehiculo.service';
+import { VehiculoController } from './vehiculo/vehiculo.controller';
+import { Vehiculo } from './vehiculo/vehiculo.entity';
 
 @Module({
   imports: [
@@ -13,15 +16,14 @@ import { Reserva } from './reserva/reserva.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '123',
+      password: '1234',
       database: 'gestion_vehiculos',
-      entities: [Reserva],
+      entities: [Reserva, Vehiculo],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Reserva]),
+    TypeOrmModule.forFeature([Reserva, Vehiculo]), 
   ],
-  providers: [ReservaService],
-  controllers: [ReservaController],
-  
+  providers: [ReservaService, VehiculoService],
+  controllers: [ReservaController, VehiculoController], 
 })
-export class AppModule { }
+export class AppModule {}
