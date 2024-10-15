@@ -6,6 +6,16 @@ import { ReservaService } from './reserva/reserva.service';
 import { ReservaController } from './reserva/reserva.controller';
 import { Reserva } from './reserva/reserva.entity';
 
+
+import {Clientes} from './clientes/clientes.entity';
+import { ClientesController } from './clientes/clientes.controller';
+import { ClientesService } from './clientes/clientes.service';
+import { Controller } from './.controller';
+import { MantenimientoService } from './mantenimiento/mantenimiento.service';
+import { MantenimientoController } from './mantenimiento/mantenimiento.controller';
+import { Mantenimiento } from './mantenimiento/mantenimiento.entity';
+
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -13,15 +23,15 @@ import { Reserva } from './reserva/reserva.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '123',
+      password: '12345',
       database: 'gestion_vehiculos',
-      entities: [Reserva],
+      entities: [Reserva, Clientes, Mantenimiento],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Reserva]),
+    TypeOrmModule.forFeature([Reserva, Clientes, Mantenimiento]),
   ],
-  providers: [ReservaService],
-  controllers: [ReservaController],
+  providers: [ReservaService, ClientesService, MantenimientoService, ],
+  controllers: [ReservaController, ClientesController, Controller, MantenimientoController],
   
 })
 export class AppModule { }
