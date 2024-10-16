@@ -15,7 +15,7 @@ export class Clientes {
     Direccion: String; // Direccion Cliente
 
     @Column() // Telefno cliente 
-    Telefono: number;
+    Telefono: number;
 
     @Column()
     Correo: String;

@@ -15,7 +15,6 @@ export class FacturacionService {
         ) {}
 
 
-
         findAll(): Promise<Facturacion[]> {
         return this.facturacionRepository.find();
         }
