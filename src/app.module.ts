@@ -10,7 +10,7 @@ import { Reserva } from './reserva/reserva.entity';
 import {Clientes} from './clientes/clientes.entity';
 import { ClientesController } from './clientes/clientes.controller';
 import { ClientesService } from './clientes/clientes.service';
-import { Controller } from './.controller';
+
 import { MantenimientoService } from './mantenimiento/mantenimiento.service';
 import { MantenimientoController } from './mantenimiento/mantenimiento.controller';
 import { Mantenimiento } from './mantenimiento/mantenimiento.entity';
@@ -31,7 +31,7 @@ import { Mantenimiento } from './mantenimiento/mantenimiento.entity';
     TypeOrmModule.forFeature([Reserva, Clientes, Mantenimiento]),
   ],
   providers: [ReservaService, ClientesService, MantenimientoService, ],
-  controllers: [ReservaController, ClientesController, Controller, MantenimientoController],
+  controllers: [ReservaController, ClientesController, MantenimientoController],
   
 })
 export class AppModule { }
