@@ -16,6 +16,12 @@ import { MantenimientoController } from './mantenimiento/mantenimiento.controlle
 import { Mantenimiento } from './mantenimiento/mantenimiento.entity';
 
 
+
+//Facturacion
+import { FacturacionController } from './facturacion/facturacion.controller';
+import { FacturacionService } from './facturacion/facturacion.service';
+import {Facturacion} from './facturacion/facturacion.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -25,13 +31,13 @@ import { Mantenimiento } from './mantenimiento/mantenimiento.entity';
       username: 'postgres',
       password: '1234',
       database: 'gestion_vehiculos',
-      entities: [Reserva, Clientes, Mantenimiento],
+      entities: [Reserva, Clientes, Mantenimiento, Facturacion],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Reserva, Clientes, Mantenimiento]),
+    TypeOrmModule.forFeature([Reserva, Facturacion, Clientes, Mantenimiento]),
   ],
-  providers: [ReservaService, ClientesService, MantenimientoService, ],
-  controllers: [ReservaController, ClientesController, MantenimientoController],
+  providers: [ReservaService, ClientesService, MantenimientoService, , FacturacionService],
+  controllers: [ReservaController, ClientesController, MantenimientoController, FacturacionController],
   
 })
 export class AppModule {}
