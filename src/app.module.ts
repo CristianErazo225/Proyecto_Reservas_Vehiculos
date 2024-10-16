@@ -36,7 +36,7 @@ import { Facturacion } from './facturacion/facturacion.entity';
     }),
     TypeOrmModule.forFeature([Reserva, Vehiculo, Clientes, Mantenimiento, Facturacion]),
   ],
-  providers: [ReservaService, VehiculoService, ClientesService, MantenimientoService, , FacturacionService],
+  providers: [ReservaService, VehiculoService, ClientesService, MantenimientoService, FacturacionService],
   controllers: [ReservaController, VehiculoController, ClientesController, MantenimientoController, FacturacionController],
   
 })
