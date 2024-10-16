@@ -6,6 +6,12 @@ import { ReservaService } from './reserva/reserva.service';
 import { ReservaController } from './reserva/reserva.controller';
 import { Reserva } from './reserva/reserva.entity';
 
+
+//Facturacion
+import { FacturacionController } from './facturacion/facturacion.controller';
+import { FacturacionService } from './facturacion/facturacion.service';
+import {Facturacion} from './facturacion/facturacion.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -13,15 +19,15 @@ import { Reserva } from './reserva/reserva.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '123',
+      password: '1234',
       database: 'gestion_vehiculos',
-      entities: [Reserva],
+      entities: [Reserva, Facturacion],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Reserva]),
+    TypeOrmModule.forFeature([Reserva, Facturacion]),
   ],
-  providers: [ReservaService],
-  controllers: [ReservaController],
+  providers: [ReservaService, FacturacionService],
+  controllers: [ReservaController, FacturacionController],
   
 })
 export class AppModule { }
