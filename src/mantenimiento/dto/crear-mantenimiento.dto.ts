@@ -6,11 +6,12 @@ export class CrearMantenimientoDto {
     fecha_reserva: Date;
 
     @IsNotEmpty()
-    fecha_inicio: Date;
+    fecha_mantenimiento: Date;
 
     @IsNotEmpty()
-    fecha_fin: Date;
+    descripcion_mantenimiento: string;
 
     @IsString()
-    estado: string;
+    costo_mantenimiento: number;
 }
+
