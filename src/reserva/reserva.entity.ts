@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Clientes } from 'src/clientes/clientes.entity';
+import { Facturacion } from 'src/facturacion/facturacion.entity';
+import { Vehiculo } from 'src/vehiculo/vehiculo.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany} from 'typeorm';
 
 @Entity()
 export class Reserva {
@@ -17,10 +20,16 @@ export class Reserva {
 
     @Column()
     estado: string;
+    
+    //Cada reserva está asociada a un solo vehículo en particular
+    @ManyToOne(() => Vehiculo, vehiculo => vehiculo.reservas, { onDelete: 'SET NULL'})
+    vehiculo: Vehiculo;
 
-    // @ManyToOne(() => Responsable, responsable => responsable.proyectos, { onDelete: 'SET NULL' })
-    // responsable: Responsable;
+    //Cada reserva está asociada a un solo cliente
+    @ManyToOne(() => Clientes, clientes => clientes.reservas, { onDelete: 'SET NULL'})
+    clientes: Clientes;
 
-    // @OneToOne(() => Detalle, detalle => detalle.proyecto)
-    // detalle: Detalle;
-}
+    //Un Factura puede estar involucrada en muchas reservas
+    @OneToMany(() => Facturacion, Facturacion => Facturacion.reserva)
+    Facturaciones: Facturacion[];
+} 

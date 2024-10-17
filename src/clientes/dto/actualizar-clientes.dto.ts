@@ -4,17 +4,17 @@ export class ActualizarClientesDto{
     
    
     @IsOptional()
-    Nombre: String;
+    nombre: String;
 
     
     @IsOptional()
-    Direccion: String;
+    direccion: String;
 
     
     @IsOptional()
-    Telefono: number;
+    telefono: number;
 
     @IsOptional()
-    Correo: string;
+    correo: string;
 
 }

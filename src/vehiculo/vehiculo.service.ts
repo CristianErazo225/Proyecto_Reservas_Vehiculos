@@ -13,8 +13,26 @@ export class VehiculoService {
     ) { }
 
     //Servicio para obtener los vehiculos
-    findAll(): Promise<Vehiculo[]> {
-        return this.vehiculoRepository.find();
+    async findAll(): Promise<any[]> {
+        // return this.vehiculoRepository.find();
+
+        const vehiculos = await this.vehiculoRepository.find(
+            { 
+                select: ['marca', 'modelo', 'placa'],
+                relations: ['reservas'] 
+            }
+        );
+
+        return vehiculos.map(vehiculo => ({
+            marca:vehiculo.marca,
+            modelo:vehiculo.modelo,
+            reservas: vehiculo.reservas.map(reserva => ({
+                fecha_reserva: reserva.fecha_reserva,
+                estado: reserva.estado  
+
+            })),
+
+        }));
     }
 
     //Servicio para crear Vehiculos

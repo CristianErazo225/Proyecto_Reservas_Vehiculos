@@ -3,14 +3,14 @@ import { IsString, IsNotEmpty } from 'class-validator';
 export class CrearClientesDto {
     
     @IsNotEmpty()
-    Nombre: String;
+    nombre: String;
 
     @IsNotEmpty()
-    Direccion: String;
+    direccion: String;
 
     @IsNotEmpty()
-    Telefono: number;
+    telefono: number;
 
     @IsString()
-    Correo: string;
+    correo: string;
 }

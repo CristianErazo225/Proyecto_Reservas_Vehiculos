@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Reserva } from './reserva.entity';
 import { CrearReservaDto } from './dto/crear-reserva.dto';
 import { ActualizarReservaDto } from './dto/actualizar-reserva.dto';
+import { Facturacion } from 'src/facturacion/facturacion.entity';
 
 @Injectable()
 export class ReservaService {
@@ -12,10 +13,29 @@ export class ReservaService {
         private reservaRepository: Repository<Reserva>,
     ) { }
 
-    //Servicio para obtener todas las Reservas
-    findAll(): Promise<Reserva[]> {
-        return this.reservaRepository.find();
-    }
+    // //Servicio para obtener todas las Reservas
+    //  findAll(): Promise<Reserva[]> {
+    //      return this.reservaRepository.find();
+    //  }
+
+     async findAll(): Promise<any[]> {
+
+         const reservas = await this.reservaRepository.find(
+             { 
+                 select: ['fecha_inicio', 'fecha_fin'],
+                 relations: ['facturacion'] 
+             }
+         );
+
+         return reservas.map(reserva => ({
+             fecha_inicio:reserva.fecha_inicio,
+             fecha_fin:reserva.fecha_fin,
+             facturaciones: reserva.Facturaciones.map(facturacion => ({
+             MontoTotal: facturacion.MontoTotal
+             })),
+
+         }));
+     }
 
     //Servicio para crear Reservas
     async create(crearReservaDto: CrearReservaDto): Promise<Reserva> {
@@ -44,5 +64,10 @@ export class ReservaService {
     async remove(id_reserva: number): Promise<void> {
         const reserva = await this.findOne(id_reserva);
         await this.reservaRepository.delete(id_reserva);
+    }
+
+    async findFull(): Promise<Reserva[]>{
+        return this.reservaRepository.find( {relations: ['vehiculo', 'clientes']});
+
     }
 }

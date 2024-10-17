@@ -36,4 +36,10 @@ export class ReservaController {
     borrar(@Param('id_reserva') id_reserva: number) {
         return this.reservaService.remove(id_reserva);
     }
+
+    //Leer todas las Reservas
+    @Get('full/reservas')
+    obtenerCompleto() {
+        return this.reservaService.findFull();
+    }
 }

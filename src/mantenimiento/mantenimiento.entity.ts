@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Vehiculo } from 'src/vehiculo/vehiculo.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 
 @Entity()
@@ -16,6 +17,10 @@ export class Mantenimiento {
 
     @Column() // costo mantenimineto
     costo_mantenimiento: number;
+
+    //Cada mantenimiento está asociada a un solo vehículo en particular
+    @ManyToOne(() => Vehiculo, vehiculo => vehiculo.mantenimientos, { onDelete: 'SET NULL'})
+    vehiculo: Vehiculo;
 
     
 }

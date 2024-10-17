@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Mantenimiento } from 'src/mantenimiento/mantenimiento.entity';
+import { Reserva } from 'src/reserva/reserva.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 
 //import { EstadoVehiculo } from './estado-vehiculo.enum'; // Importa el enum
 
@@ -23,11 +25,12 @@ export class Vehiculo {
   @Column()
   estado: string;
 
-// @Column({
-//   type: 'enum',
-//   enum: EstadoVehiculo,
-//   default: EstadoVehiculo.DISPONIBLE, // Valor por defecto
-// })
-// estado: EstadoVehiculo;
+  //Un Vehiculo puede estar involucrado en muchas reservas
+  @OneToMany(() => Reserva, reserva => reserva.vehiculo)
+  reservas: Reserva[];
+
+  //Un Vehiculo puede estar involucrado en muchas mantenimientos
+  @OneToMany(() => Mantenimiento, mantenimiento => mantenimiento.vehiculo)
+  mantenimientos: Mantenimiento[];
 
 }

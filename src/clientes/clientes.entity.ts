@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Reserva } from 'src/reserva/reserva.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 
 @Entity()
@@ -7,18 +8,21 @@ export class Clientes {
     @PrimaryGeneratedColumn()
     id_clientes: number; // identificador clientes 
 
+    @Column()
+    nombre: String;// Nombre Cliente 
 
     @Column()
-    Nombre: String;// Nombre Cliente 
-
-    @Column()
-    Direccion: String; // Direccion Cliente
+    direccion: String; // Direccion Cliente
 
     @Column() // Telefno cliente 
-    Telefono: number;
+    telefono: number;
 
     @Column()
-    Correo: String;
+    correo: String;
+
+    //Un Cliente puede tener muchas reservas
+    @OneToMany(() => Reserva, reserva => reserva.clientes)
+    reservas: Reserva[];
 }
 
 
