@@ -13,29 +13,29 @@ export class ReservaService {
         private reservaRepository: Repository<Reserva>,
     ) { }
 
-    // //Servicio para obtener todas las Reservas
-    //  findAll(): Promise<Reserva[]> {
-    //      return this.reservaRepository.find();
+    //Servicio para obtener todas las Reservas
+    findAll(): Promise<Reserva[]> {
+         return this.reservaRepository.find();
+    }
+
+    // async findAll(): Promise<any[]> {
+
+    //      const reservas = await this.reservaRepository.find(
+    //          { 
+    //              select: ['fecha_inicio', 'fecha_fin'],
+    //              relations: ['Facturacion'] 
+    //          }
+    //      );
+
+    //      return reservas.map(reserva => ({
+    //          fecha_inicio:reserva.fecha_inicio,
+    //          fecha_fin:reserva.fecha_fin,
+    //          facturaciones: reserva.Facturaciones.map(facturacion => ({
+    //          MontoTotal: facturacion.MontoTotal
+    //          })),
+
+    //      }));
     //  }
-
-     async findAll(): Promise<any[]> {
-
-         const reservas = await this.reservaRepository.find(
-             { 
-                 select: ['fecha_inicio', 'fecha_fin'],
-                 relations: ['facturacion'] 
-             }
-         );
-
-         return reservas.map(reserva => ({
-             fecha_inicio:reserva.fecha_inicio,
-             fecha_fin:reserva.fecha_fin,
-             facturaciones: reserva.Facturaciones.map(facturacion => ({
-             MontoTotal: facturacion.MontoTotal
-             })),
-
-         }));
-     }
 
     //Servicio para crear Reservas
     async create(crearReservaDto: CrearReservaDto): Promise<Reserva> {
@@ -52,7 +52,8 @@ export class ReservaService {
 
     async findOne(id_reserva: number): Promise<Reserva> {
         const reserva = await this.reservaRepository.findOne({ 
-            where: { id_reserva }
+            where: { id_reserva }, 
+            relations: ['vehiculo', 'clientes']
          });
         if (!reserva) {
             throw new NotFoundException('Reserva con ID ' + id_reserva + ' no encontrado');

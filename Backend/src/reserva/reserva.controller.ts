@@ -16,6 +16,11 @@ export class ReservaController {
         return this.reservaService.findAll();
     }
 
+    @Get(':id')
+    obtenerUno(@Param('id_reserva') id_reserva: number) {
+        return this.reservaService.findOne(id_reserva);
+    }
+
     //Crear reserva
     @Post('crear/reservas')
     crear(@Body() crearReservaDto: CrearReservaDto) {

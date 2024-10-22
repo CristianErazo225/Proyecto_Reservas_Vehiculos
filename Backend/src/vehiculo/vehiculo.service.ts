@@ -18,12 +18,13 @@ export class VehiculoService {
 
         const vehiculos = await this.vehiculoRepository.find(
             { 
-                select: ['marca', 'modelo', 'placa'],
+                select: ['id_vehiculo','marca', 'modelo', 'placa'],
                 relations: ['reservas'] 
             }
         );
 
         return vehiculos.map(vehiculo => ({
+            id_vehiculo:vehiculo.id_vehiculo,
             marca:vehiculo.marca,
             modelo:vehiculo.modelo,
             reservas: vehiculo.reservas.map(reserva => ({
