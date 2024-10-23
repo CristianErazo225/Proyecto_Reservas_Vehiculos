@@ -20,6 +20,12 @@ function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" aria-current="page" to="/reserva/crear">Crear Reserva</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link active" aria-current="page" to="/facturas">Facturas</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" aria-current="page" to="/factura/crear">Crear Factura</Link>
+                        </li>
                     </ul>
                 </div>
             </div>

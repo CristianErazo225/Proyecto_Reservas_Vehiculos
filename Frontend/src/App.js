@@ -8,6 +8,9 @@ import Navbar from './reserva_components/Navbar';
 import CrearReserva from './reserva_components/ReservaCrear';
 import ReservasList from './reserva_components/ReservaList';
 import ActualizarReserva from './reserva_components/ActualizarReserva';
+import FacturasList from './factura_components/FacturaList';
+import CrearFactura from './factura_components/FacturaCrear';
+import ActualizarFactura from './factura_components/ActualizarFactura';
 
 function App() {
   const [selectedReserva, setSelectedReserva] = useState(null);
@@ -22,6 +25,10 @@ function App() {
             <Route path='/reservas' element={<ReservasList onSelectReserva={setSelectedReserva} />} />
             <Route path='/reserva/crear' element={<CrearReserva />} />
             <Route path='/reserva/actualizar/:id' element={<ActualizarReserva reserva={selectedReserva} />} />
+            {/* facturas */}
+            <Route path='/facturas' element={<FacturasList onSelectReserva={setSelectedReserva} />} />
+            <Route path='/factura/crear' element={<CrearFactura />} />
+            <Route path='/factura/actualizar/:id' element={<ActualizarFactura />} />
           </Routes>
         </div>
       </div>
