@@ -20,6 +20,31 @@ function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" aria-current="page" to="/reserva/crear">Crear Reserva</Link>
                         </li>
+
+
+                        <li className="nav-item">
+                            <Link className="nav-link active" aria-current="page" to="/facturas">Facturas</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" aria-current="page" to="/factura/crear">Crear Factura</Link>
+                        </li>
+
+                        <li className="nav-item">
+                            <Link className="nav-link active" aria-current="page" to="/clientes">Clientes</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" aria-current="page" to="/cliente/crear">Crear Clientes</Link>
+                        </li>
+
+                        <li className="nav-item">
+                            <Link className="nav-link active" aria-current="page" to="/mantenimiento">Mantenimiento</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" aria-current="page" to="/mantenimiento/crear">Crear Mantenimiento</Link>
+                        </li>
+
+
+
                     </ul>
                 </div>
             </div>
