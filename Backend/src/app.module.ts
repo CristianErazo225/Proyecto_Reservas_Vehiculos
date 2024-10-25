@@ -29,7 +29,7 @@ import { Facturacion } from './facturacion/facturacion.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '123',
+      password: '0702',
       database: 'gestion_vehiculos',
       entities: [Reserva, Vehiculo, Clientes, Mantenimiento, Facturacion],
       synchronize: true,

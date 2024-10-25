@@ -12,8 +12,6 @@ export class ActualizarVehiculoDto {
     modelo?: string;
 
     @IsNotEmpty()
-    @IsInt() // Verifica que 'anio' sea un número entero
-    @IsPositive() // Verifica que 'anio' sea positivo
     @IsOptional()
     anio?: number;
 
