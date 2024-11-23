@@ -20,8 +20,9 @@ function ActualizarReserva({ reserva, onUpdate }) {
             setFecha_fin(reserva.fecha_fin);
             setEstado(reserva.estado);
             setLoading(false);
-        } else {
+        } else if (id) {
             // Si no hay reserva pasada, cargamos los datos desde el servidor usando el ID
+            setLoading(true);
             api.get(`/reserva/${id}`)
                 .then(response => {
                     const fetchedReserva = response.data;
@@ -29,47 +30,51 @@ function ActualizarReserva({ reserva, onUpdate }) {
                     setFecha_inicio(fetchedReserva.fecha_inicio);
                     setFecha_fin(fetchedReserva.fecha_fin);
                     setEstado(fetchedReserva.estado);
-                    setLoading(false);
                 })
                 .catch(error => {
-                    console.error("Error al obtener la reserva", error);
-                    setError("No se pudo cargar la reserva. Intente nuevamente más tarde.");
-                    setLoading(false);
-                });
+                    console.error("Error al obtener la reserva:", error);
+                    setError("No se pudo cargar la reserva.");
+                })
+                .finally(() => setLoading(false));
         }
-    }, [reserva, id]);
+    }, [id, reserva]);
 
     const handleSubmit = () => {
-        const updateReserva = {
+        // Validación de datos antes de enviar
+        if (!fecha_reserva || !fecha_inicio || !fecha_fin || !estado) {
+            setError("Todos los campos son obligatorios.");
+            return;
+        }
+
+        const updateReserva = { 
             fecha_reserva, 
             fecha_inicio, 
             fecha_fin, 
             estado 
         };
 
+        console.log('Actualizando reserva con datos:', updateReserva);
+
         api.put(`/reserva/${id}`, updateReserva)
             .then(response => {
-                console.log('Reserva Actualizada: ', response.data);
-                onUpdate(response.data); // Llamar la función de actualización
-                navigate('/reservas'); // Redirigir de nuevo a la lista de reservas
+                console.log('Reserva actualizada:', response.data);
+                if (onUpdate) onUpdate(response.data); // Llamar la función de actualización si existe
+                navigate('/reservas'); // Redirigir a la lista de reservas
             })
             .catch(error => {
-                console.error("Error al actualizar la reserva", error);
+                console.error("Error al actualizar la reserva:", error);
                 setError("No se pudo actualizar la reserva. Verifique los datos.");
             });
     };
 
-    if (loading) {
-        return <div>Cargando...</div>;
-    }
+    if (loading) return <div>Cargando...</div>;
 
-    if (error) {
-        return <div className="alert alert-danger">{error}</div>;
-    }
+    if (error) return <div className="alert alert-danger">{error}</div>;
 
     return (
         <div>
             <h3>Nro reserva: {id}</h3>
+            
             <h3>Fecha de la reserva</h3>
             <input 
                 className="form-control" 
@@ -111,7 +116,6 @@ function ActualizarReserva({ reserva, onUpdate }) {
             />
             <br />
             
-
             <button className="btn btn-primary btn-sm me-2" onClick={handleSubmit}>
                 Actualizar
             </button>
