@@ -2,46 +2,47 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../axiosConfig";
 
-function ActualizarCliente() {
-    const { id } = useParams(); // Obtener el ID del cliente de la URL
+function ActualizarVehiculo() {
+    const { id } = useParams(); // Obtener el ID del vehículo de la URL
     const navigate = useNavigate(); // Hook para redirigir
-    const [cliente, setCliente] = useState({
-        nombre: '',
-        direccion: '',
-        telefono: '',
-        correo: ''
+    const [vehiculo, setVehiculo] = useState({
+        marca: '',
+        modelo: '',
+        anio: '',
+        placa: '',
+        estado: ''
     });
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
-        // Obtener el cliente por ID
-        api.get(`/clientes/${id}`)
-            .then(response => setCliente(response.data))
-            .catch(error => console.error("Error al obtener el cliente: ", error));
+        // Obtener el vehículo por ID
+        api.get(`/vehiculos/${id}`)
+            .then(response => setVehiculo(response.data))
+            .catch(error => console.error("Error al obtener el vehículo: ", error));
     }, [id]);
 
     const handleChange = (e) => {
-        setCliente({ ...cliente, [e.target.name]: e.target.value });
+        setVehiculo({ ...vehiculo, [e.target.name]: e.target.value });
     };
 
     const handleUpdate = () => {
-        api.put(`/clientes/${id}`, cliente)
+        api.put(`/vehiculo/${id}`, vehiculo)  // Cambia 'vehiculos' a 'vehiculo'
             .then(() => {
-                setSuccessMessage("Cliente actualizado correctamente.");
+                setSuccessMessage("Vehículo actualizado correctamente.");
                 setTimeout(() => setSuccessMessage(''), 5000);
-                navigate('/clientes'); // Redirigir a la lista de clientes después de la actualización
+                navigate('/vehiculos'); // Redirigir a la lista de vehículos después de la actualización
             })
             .catch(error => {
-                console.error("Error al actualizar el cliente", error); // Mostrar el error completo
-                setError("No se pudo actualizar el cliente: " + (error.response ? error.response.data : "Error desconocido."));
+                const errorMessage = error.response?.data?.message || "Error desconocido.";
+                setError("No se pudo actualizar el vehículo: " + errorMessage);
             });
     };
 
     return (
         <div style={styles.container}>
             <div className="card shadow-lg p-4" style={styles.card}>
-                <h2 className="text-center mb-4">Actualizar Cliente</h2>
+                <h2 className="text-center mb-4">Actualizar Vehículo</h2>
 
                 {/* Mostrar el mensaje de éxito si existe */}
                 {successMessage && (
@@ -54,23 +55,11 @@ function ActualizarCliente() {
                 {error && <div className="alert alert-danger text-center mb-4">{error}</div>}
 
                 <div className="form-group mb-3">
-                    <label className="form-label">Nombre:</label>
+                    <label className="form-label">Marca:</label>
                     <input
                         type="text"
-                        name="nombre"
-                        value={cliente.nombre}
-                        onChange={handleChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
-                
-                <div className="form-group mb-3">
-                    <label className="form-label">Dirección:</label>
-                    <input
-                        type="text"
-                        name="direccion"
-                        value={cliente.direccion}
+                        name="marca"
+                        value={vehiculo.marca}
                         onChange={handleChange}
                         className="form-control"
                         required
@@ -78,11 +67,11 @@ function ActualizarCliente() {
                 </div>
 
                 <div className="form-group mb-3">
-                    <label className="form-label">Teléfono:</label>
+                    <label className="form-label">Modelo:</label>
                     <input
-                        type="tel"
-                        name="telefono"
-                        value={cliente.telefono}
+                        type="text"
+                        name="modelo"
+                        value={vehiculo.modelo}
                         onChange={handleChange}
                         className="form-control"
                         required
@@ -90,11 +79,35 @@ function ActualizarCliente() {
                 </div>
 
                 <div className="form-group mb-3">
-                    <label className="form-label">Correo Electrónico:</label>
+                    <label className="form-label">Año:</label>
                     <input
-                        type="email"
-                        name="correo"
-                        value={cliente.correo}
+                        type="number"
+                        name="anio"
+                        value={vehiculo.anio}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+
+                <div className="form-group mb-3">
+                    <label className="form-label">Placa:</label>
+                    <input
+                        type="text"
+                        name="placa"
+                        value={vehiculo.placa}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                    />
+                </div>
+
+                <div className="form-group mb-3">
+                    <label className="form-label">Estado:</label>
+                    <input
+                        type="text"
+                        name="estado"
+                        value={vehiculo.estado}
                         onChange={handleChange}
                         className="form-control"
                         required
@@ -103,7 +116,7 @@ function ActualizarCliente() {
 
                 <div className="text-center">
                     <button className="btn btn-primary" onClick={handleUpdate}>
-                        Actualizar Cliente
+                        Actualizar Vehículo
                     </button>
                 </div>
             </div>
@@ -128,4 +141,4 @@ const styles = {
     }
 };
 
-export default ActualizarCliente;
+export default ActualizarVehiculo;

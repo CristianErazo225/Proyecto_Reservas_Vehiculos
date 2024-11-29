@@ -1,118 +1,124 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import api from "../axiosConfig";
 
 function CrearMantenimiento() {
     const [fecha_mantenimiento, setFecha_mantenimiento] = useState('');
     const [descripcion_mantenimiento, setDescripcion_mantenimiento] = useState('');
     const [costo_mantenimiento, setCosto_mantenimiento] = useState('');
-    const [vehiculoId, setVehiculoId] = useState('');
-    const [vehiculos, setVehiculos] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    const [error, setError] = useState('');
+    const [mensajeExito, setMensajeExito] = useState('');  // Estado para el mensaje de éxito
+    const [loading, setLoading] = useState(false);
 
-    // Obtener la lista de vehículos disponibles para asociar el mantenimiento
-    useEffect(() => {
-        api.get('/vehiculo/obtener/vehiculos')
-            .then(response => {
-                if (response.data && Array.isArray(response.data)) {
-                    setVehiculos(response.data);
-                } else {
-                    setErrorMessage("No se encontraron vehículos.");
-                }
-            })
-            .catch(error => {
-                console.error("Error al cargar los vehículos: ", error);
-                setErrorMessage("Error al cargar los vehículos.");
-            });
-    }, []);
-
-    const handleSubmit = () => {
-        // Validación básica de los campos
-        if (!fecha_mantenimiento || !descripcion_mantenimiento || !costo_mantenimiento || !vehiculoId) {
-            setErrorMessage('Por favor, completa todos los campos.');
-            return;
-        }
-
-        const newMantenimiento = {
-            fecha_mantenimiento,
-            descripcion_mantenimiento,
-            costo_mantenimiento: parseFloat(costo_mantenimiento), // Asegurarse de que el costo sea un número
-            vehiculoId,
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        const nuevoMantenimiento = {
+            fecha_mantenimiento: fecha_mantenimiento,
+            descripcion_mantenimiento: descripcion_mantenimiento,
+            costo_mantenimiento: parseFloat(costo_mantenimiento),  // Convertir a número si es necesario
         };
 
-        api.post('/mantenimiento', newMantenimiento)
+        api.post('/mantenimiento/crear/mantenimiento', nuevoMantenimiento)
             .then(response => {
                 console.log('Mantenimiento creado: ', response.data);
-                // Limpiar los campos después de crear el mantenimiento
                 setFecha_mantenimiento('');
                 setDescripcion_mantenimiento('');
                 setCosto_mantenimiento('');
-                setVehiculoId('');
-                setSuccessMessage('Mantenimiento creado correctamente'); // Mensaje de éxito
-                setErrorMessage(''); // Limpiar el mensaje de error
+                setMensajeExito('Mantenimiento creado correctamente');  // Actualiza el mensaje de éxito
+                setTimeout(() => setMensajeExito(''), 5000);  // Elimina el mensaje después de 5 segundos
             })
             .catch(error => {
                 console.error("Error al crear el mantenimiento", error);
-                setErrorMessage("Error al crear el mantenimiento. Por favor, intenta de nuevo."); // Mensaje de error
-                setSuccessMessage(''); // Limpiar el mensaje de éxito
+                setError('Error al crear el mantenimiento. Por favor, intenta de nuevo.');
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
     return (
-        <div>
-            <h3>Crear Mantenimiento</h3>
+        <div style={styles.background}>
+            <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+                <div className="card shadow-lg p-4" style={styles.card}>
+                    
+                    {/* Mostrar el mensaje de éxito encima del título */}
+                    {mensajeExito && (
+                        <div className="alert alert-success text-center mb-4">
+                            {mensajeExito}
+                        </div>
+                    )}
 
-            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>} {/* Mostrar mensaje de error */}
-            {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Mostrar mensaje de éxito */}
+                    {/* Mostrar el mensaje de error encima del título si existe */}
+                    {error && <div className="alert alert-danger text-center mb-4">{error}</div>}
+                    
+                    <h2 className="text-center mb-4">Crear Mantenimiento</h2>
+                    
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label className="form-label">Fecha de Mantenimiento</label>
+                            <input
+                                className="form-control"
+                                type="date"
+                                value={fecha_mantenimiento}
+                                onChange={(e) => setFecha_mantenimiento(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <h5>Fecha de Mantenimiento</h5>
-            <input
-                className="form-control"
-                type="date"
-                placeholder="Fecha de Mantenimiento"
-                value={fecha_mantenimiento}
-                onChange={(e) => setFecha_mantenimiento(e.target.value)}
-            />
-            <br />
+                        <div className="mb-3">
+                            <label className="form-label">Descripción del Mantenimiento</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Descripción del Mantenimiento"
+                                value={descripcion_mantenimiento}
+                                onChange={(e) => setDescripcion_mantenimiento(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <h5>Descripción del Mantenimiento</h5>
-            <input
-                className="form-control"
-                type="text"
-                placeholder="Descripción"
-                value={descripcion_mantenimiento}
-                onChange={(e) => setDescripcion_mantenimiento(e.target.value)}
-            />
-            <br />
+                        <div className="mb-3">
+                            <label className="form-label">Costo del Mantenimiento</label>
+                            <input
+                                className="form-control"
+                                type="number"
+                                placeholder="Costo del Mantenimiento"
+                                value={costo_mantenimiento}
+                                onChange={(e) => setCosto_mantenimiento(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <h5>Costo del Mantenimiento</h5>
-            <input
-                className="form-control"
-                type="number"
-                placeholder="Costo"
-                value={costo_mantenimiento}
-                onChange={(e) => setCosto_mantenimiento(e.target.value)}
-            />
-            <br />
-
-            <h5>Vehículo</h5>
-            <select
-                className="form-control"
-                value={vehiculoId}
-                onChange={(e) => setVehiculoId(e.target.value)}
-            >
-                <option value="">Seleccione un vehículo</option>
-                {vehiculos.map(vehiculo => (
-                    <option key={vehiculo.id_vehiculo} value={vehiculo.id_vehiculo}>
-                        {vehiculo.id_vehiculo} - {vehiculo.marca} {vehiculo.modelo}
-                    </option>
-                ))}
-            </select>
-            <br />
-
-            <button className="btn btn-primary btn-sm me-2" onClick={handleSubmit}>Guardar Mantenimiento</button>
+                        <div className="text-center">
+                            <button
+                                className="btn btn-primary"
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading ? 'Creando...' : 'Guardar Mantenimiento'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }
+
+const styles = {
+    background: {
+        background: "linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%)",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    card: {
+        borderRadius: "10px",
+        background: "#fff",
+        maxWidth: "500px",
+        width: "100%",
+    },
+};
 
 export default CrearMantenimiento;

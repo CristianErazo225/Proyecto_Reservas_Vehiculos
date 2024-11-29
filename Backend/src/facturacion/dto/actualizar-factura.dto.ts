@@ -1,10 +1,10 @@
-import {IsString,IsBoolean, IsNotEmpty, IsOptional} from 'class-validator';
+import { IsString, IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
-export class ActualizarFacturaDto{
+export class ActualizarFacturaDto {
     
     @IsOptional()
     FechaEmision?: Date;
 
     @IsOptional()
-    MontoTotal: number;
+    MontoTotal?: number;  // Añadir @IsOptional() aquí
 }

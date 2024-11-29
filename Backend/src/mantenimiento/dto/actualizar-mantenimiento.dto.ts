@@ -1,16 +1,13 @@
 import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class ActualizarMantenimientoDto {
-    
-    @IsOptional()
-    fecha_mantenimineto?: Date;
 
-    
     @IsOptional()
-    descrpcion_mantenimiento?: string;
+    fecha_mantenimiento?: Date;
 
- 
+    @IsOptional()
+    descripcion_mantenimiento?: string;
+
     @IsOptional()
     costo_mantenimiento?: number;
-
 }

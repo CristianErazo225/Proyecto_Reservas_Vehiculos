@@ -26,71 +26,107 @@ function CrearCliente() {
         api.post('/clientes/crear/clientes', newCliente)
             .then(response => {
                 console.log('Cliente creado: ', response.data);
-                // Limpiar los campos después de crear el cliente
                 setNombre('');
                 setDireccion('');
                 setTelefono('');
                 setCorreo('');
-                setSuccessMessage('Cliente creado correctamente'); // Mensaje de éxito
-                setErrorMessage(''); // Limpiar el mensaje de error
+                setSuccessMessage('Cliente creado correctamente');
+                setErrorMessage('');
             })
             .catch(error => {
                 console.error("Error al crear el cliente", error);
-                setErrorMessage("Error al crear el cliente. Por favor intenta de nuevo."); // Mensaje de error
-                setSuccessMessage(''); // Limpiar el mensaje de éxito
+                setErrorMessage("Error al crear el cliente. Por favor intenta de nuevo.");
+                setSuccessMessage('');
             });
     };
 
     return (
-        <div>
-            <h3>Crear Cliente</h3>
+        <div style={styles.background}>
+            <div className="container d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+                <div className="card shadow-lg p-4" style={styles.card}>
+                    <h2 className="text-center mb-4">Crear Cliente</h2>
 
-            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>} {/* Mostrar mensaje de error */}
-            {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Mostrar mensaje de éxito */}
+                    {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                    {successMessage && <div className="alert alert-success">{successMessage}</div>}
 
-            <h5>Nombre</h5>
-            <input
-                className="form-control"
-                type="text"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-            />
-            <br />
+                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                        <div className="mb-3">
+                            <label className="form-label">Nombre</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Nombre"
+                                value={nombre}
+                                onChange={(e) => setNombre(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <h5>Dirección</h5>
-            <input
-                className="form-control"
-                type="text"
-                placeholder="Dirección"
-                value={direccion}
-                onChange={(e) => setDireccion(e.target.value)}
-            />
-            <br />
+                        <div className="mb-3">
+                            <label className="form-label">Dirección</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Dirección"
+                                value={direccion}
+                                onChange={(e) => setDireccion(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <h5>Teléfono</h5>
-            <input
-                className="form-control"
-                type="tel"
-                placeholder="Teléfono"
-                value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
-            />
-            <br />
+                        <div className="mb-3">
+                            <label className="form-label">Teléfono</label>
+                            <input
+                                className="form-control"
+                                type="tel"
+                                placeholder="Teléfono"
+                                value={telefono}
+                                onChange={(e) => setTelefono(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <h5>Correo Electrónico</h5>
-            <input
-                className="form-control"
-                type="email"
-                placeholder="Correo Electrónico"
-                value={correo}
-                onChange={(e) => setCorreo(e.target.value)}
-            />
-            <br />
+                        <div className="mb-3">
+                            <label className="form-label">Correo Electrónico</label>
+                            <input
+                                className="form-control"
+                                type="email"
+                                placeholder="Correo Electrónico"
+                                value={correo}
+                                onChange={(e) => setCorreo(e.target.value)}
+                                required
+                            />
+                        </div>
 
-            <button className="btn btn-primary btn-sm me-2" onClick={handleSubmit}>Guardar Cliente</button>
+                        <div className="text-center">
+                            <button 
+                                className="btn btn-primary"
+                                type="submit"
+                            >
+                                Guardar Cliente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }
+
+const styles = {
+    background: {
+        background: "linear-gradient(135deg, #FFC371 0%, #FF5F6D 100%)",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    card: {
+        borderRadius: "10px",
+        background: "#fff",
+        maxWidth: "500px",
+        width: "100%",
+    },
+};
 
 export default CrearCliente;
